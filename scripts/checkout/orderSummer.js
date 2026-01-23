@@ -1,13 +1,11 @@
 import { cart,removeFromCart,updateDeliveryOption } from "../cart.js"
 import { formatCurrency } from "../utils/money.js"
 import { totalCartQuantity } from "../utils/cartQuantity.js"
-import {products} from  '../../data/products.js'
+import {products,getProduct} from  '../../data/products.js'
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js'
-import { deliveryOptions } from "../../data/deliveryOptions.js"
-
+import { deliveryOptions,getDeliveryOption } from "../../data/deliveryOptions.js"
+import{renderPaymentSummery} from '../checkout/paymentSummer.js'
 export function renderOrderSummery (){
-
-
 
   let orderSummeryHTML;
   
@@ -15,23 +13,12 @@ export function renderOrderSummery (){
   cart.forEach((cartItem)=>{
     const productId = cartItem.productId;
     
-    let matchItem;
+    const matchItem = getProduct(productId);
   
-    products.forEach(((product)=>{
-      if (productId === product.id){
-        matchItem = product;
-      }
-    }))
-
     const deliveryOptionId = cartItem.deliveryOptionId;
 
-    let deliveryOption;
+    let deliveryOption = getDeliveryOption(deliveryOptionId);
     
-    deliveryOptions.forEach((option)=>{
-      if( option.id === deliveryOptionId){
-        deliveryOption = option;
-      }
-    });
     const today = dayjs()
     const todayFormat = today.add(deliveryOption.deliveryDays,'day')
     const dateString = todayFormat.format('dddd, MMMM D')
@@ -75,8 +62,7 @@ export function renderOrderSummery (){
             ${deliveryOptionHTML(matchItem,cartItem)}
           </div>
         </div>
-    </div>
-    
+    </div>    
     `
   })
 
@@ -115,6 +101,7 @@ export function renderOrderSummery (){
 
       `
     })
+    
     return html
   }
   
@@ -130,6 +117,7 @@ export function renderOrderSummery (){
         const container = document.querySelector(`.js-cart-item-container-${productId}`)
         
         container.remove()
+        renderPaymentSummery()
         document.querySelector('.js-return-to-home-link').innerHTML = `${totalCartQuantity()} items`
       })
       document.querySelector('.js-return-to-home-link').innerHTML = `${totalCartQuantity()} items`
@@ -141,6 +129,8 @@ export function renderOrderSummery (){
           const {productId,deliveryOptionId } = element.dataset;
           updateDeliveryOption(productId,deliveryOptionId)
           renderOrderSummery()
+          renderPaymentSummery()
         });
       });
+    
 }

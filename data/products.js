@@ -1,3 +1,13 @@
+export function getProduct (productId){
+   let matchItem;
+  
+    products.forEach(((product)=>{
+      if (product.id === productId){
+        matchItem = product;
+      }
+    }))
+    return matchItem
+}
 export function hello(){
     console.log("conncted")
  }
