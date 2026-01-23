@@ -7,7 +7,7 @@ import { deliveryOptions,getDeliveryOption } from "../../data/deliveryOptions.js
 import{renderPaymentSummery} from '../checkout/paymentSummer.js'
 export function renderOrderSummery (){
 
-  let orderSummeryHTML;
+  let orderSummeryHTML = '';
   
   
   cart.forEach((cartItem)=>{
