@@ -5,6 +5,10 @@ import {products} from  '../data/products.js'
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js'
 import { deliveryOptions } from "../data/deliveryOptions.js"
 
+function renderOrderSummery (){
+
+
+
   let orderSummeryHTML;
   
   
@@ -114,7 +118,7 @@ import { deliveryOptions } from "../data/deliveryOptions.js"
     return html
   }
   
-  
+
 
   document.querySelector('.js-order-summary').innerHTML = orderSummeryHTML;
     document.querySelectorAll('.delete-quantity-link')
@@ -136,6 +140,8 @@ import { deliveryOptions } from "../data/deliveryOptions.js"
         element.addEventListener('click',()=>{
           const {productId,deliveryOptionId } = element.dataset;
           updateDeliveryOption(productId,deliveryOptionId)
+          renderOrderSummery()
         });
       });
-  
+}
+renderOrderSummery()
