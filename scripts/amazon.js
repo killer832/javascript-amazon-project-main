@@ -1,9 +1,11 @@
 import {products,hello} from  '../data/products.js'
+import {cart,addTocart} from  '../scripts/cart.js'   
+ 
+import{formatCurrency} from './utils/money.js' 
 
-hello()
 let productHtml = ''
 products.forEach(product=>{
-  productHtml += `
+  productHtml += `    
   <div class="product-container">
           <div class="product-image-container">
             <img class="product-image"
@@ -23,11 +25,11 @@ products.forEach(product=>{
           </div>
 
           <div class="product-price">
-            $${(product.priceCents/100).toFixed(2)}
+            $${formatCurrency(product.priceCents)}
           </div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="js-quantity-selector-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -43,15 +45,25 @@ products.forEach(product=>{
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="js-added-to-cart-${product.id} added-to-cart">
             <img src="images/icons/checkmark.png">
             Added
           </div>
 
-          <button class="add-to-cart-button button-primary">
+          <button class="js-addTocart-button add-to-cart-button button-primary" data-product-id="${product.id}">
             Add to Cart
           </button>
         </div>
   `
+  return product
 })
 document.querySelector('.Js-products-grid').innerHTML = productHtml
+
+document.querySelectorAll('.js-addTocart-button').forEach((button)=>{
+  button.addEventListener("click",()=>{
+      const productId = button.dataset.productId
+      addTocart(productId)
+      
+    })
+  })
+
