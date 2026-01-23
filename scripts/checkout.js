@@ -1,5 +1,6 @@
 import { cart,removeFromCart } from "./cart.js"
 import { formatCurrency } from "./utils/money.js"
+import { totalCartQuantity } from "./utils/cartQuantity.js"
 import {products} from  '../data/products.js'
 
 
@@ -101,7 +102,7 @@ import {products} from  '../data/products.js'
   
 
   document.querySelector('.js-order-summary').innerHTML = orderSummeryHTML;
-  document.querySelectorAll('.delete-quantity-link')
+    document.querySelectorAll('.delete-quantity-link')
     .forEach((link)=>{
       link.addEventListener('click',()=>{
         const productId = link.dataset.productId
@@ -110,6 +111,8 @@ import {products} from  '../data/products.js'
         const container = document.querySelector(`.js-cart-item-container-${productId}`)
         
         container.remove()
+        document.querySelector('.js-return-to-home-link').innerHTML = `${totalCartQuantity()} items`
       })
+      document.querySelector('.js-return-to-home-link').innerHTML = `${totalCartQuantity()} items`
     })
   

@@ -1,4 +1,5 @@
 import {products,hello} from  '../data/products.js'
+import {totalCartQuantity } from "./utils/cartQuantity.js"
 
   function saveToStorage(){
     localStorage.setItem('cart',JSON.stringify(cart))
@@ -16,9 +17,9 @@ if (!cart){
    quantity:1
    }];
 }
-export function addTocart(productId,timer){
+export function addTocart(productId){
     let matchItem;
-    let cartQuantity =0;
+   
     let selectedQuantity ;
 
     selectedQuantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value)
@@ -38,10 +39,9 @@ export function addTocart(productId,timer){
     })
     }
         
-    cart.forEach((item) => {
-      cartQuantity += item.quantity;
-    });
-    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity ;
+    
+    document.querySelector('.js-cart-quantity').innerHTML = totalCartQuantity() ;
+    
     
     
     const added = document.querySelector(`.js-added-to-cart-${productId}`);
