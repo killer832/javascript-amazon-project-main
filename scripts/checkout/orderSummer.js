@@ -50,7 +50,7 @@ export function renderOrderSummery (){
                 Update
               </span>
               <input class= "quantity-input quantity-input-${matchItem.id}" type= "Number" min="0" value="1" max="50">
-              <span class="js-save-quantity-link save-quantity-link link-primary"
+              <span class="js-save-quantity-link-${matchItem.id} save-quantity-link link-primary"
                  data-product-id="${matchItem.id}">Save</span>
               <span class="js-delete-quantity-link delete-quantity-link link-primary"
               data-product-id="${matchItem.id}">
@@ -138,7 +138,7 @@ export function renderOrderSummery (){
         
         const container = document.querySelector(`.js-cart-item-container-${productId}`)
         container.classList.add('is-editing-quantity')
-        document.querySelector('.js-save-quantity-link')
+        document.querySelector(`.js-save-quantity-link-${productId}`)
           .addEventListener('click',()=>{
            container.classList.remove('is-editing-quantity') 
            const quantityInput  = document.querySelector(`.quantity-input-${productId}`)
