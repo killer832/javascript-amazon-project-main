@@ -1,7 +1,7 @@
 import {products,hello} from  '../data/products.js'
 import {totalCartQuantity } from "./utils/cartQuantity.js"
 
-  function saveToStorage(){
+export  function saveToStorage(){
     localStorage.setItem('cart',JSON.stringify(cart))
   }
   
@@ -56,6 +56,7 @@ export function addTocart(productId){
     },50);
     saveToStorage() 
 }
+
  export function removeFromCart(productId){
   let newCart =[];
 
@@ -82,4 +83,34 @@ export function updateDeliveryOption(productId,deliveryOptionId){
   matchItem.deliveryOptionId = deliveryOptionId;
   
   saveToStorage()
+}
+export function updateCartQuantity(productId,newCartQuantity,quantityInput){
+  let matchItem;
+ cart.forEach((cartItem)=>{
+    if (productId === cartItem.productId){
+      matchItem = cartItem
+    }
+  });
+
+  if (newCartQuantity<0){
+    return alert('Enter a valid value')
+    
+  }
+  if (newCartQuantity>50){
+    return alert('value should be less then 50')
+    
+  }
+
+  if (quantityInput.value === ''){
+    return
+  }
+  if (newCartQuantity===0){
+    removeFromCart(productId)
+    saveToStorage()
+    return
+  }
+  matchItem.quantity = newCartQuantity;
+  
+  saveToStorage()
+
 }

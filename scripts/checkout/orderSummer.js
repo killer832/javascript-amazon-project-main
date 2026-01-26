@@ -1,4 +1,4 @@
-import { cart,removeFromCart,updateDeliveryOption } from "../cart.js"
+import { cart,removeFromCart,updateDeliveryOption,updateCartQuantity } from "../cart.js"
 import { formatCurrency } from "../utils/money.js"
 import { totalCartQuantity } from "../utils/cartQuantity.js"
 import {products,getProduct} from  '../../data/products.js'
@@ -40,14 +40,18 @@ export function renderOrderSummery (){
             <div class="product-price">
             $${formatCurrency(matchItem.priceCents)}
             </div>
-            <div class="product-quantity">
+            <div class="product-quantity"            >
               <span>
                 Quantity: <span class="quantity-label">${cartItem.quantity}
                 </span>
               </span>
-              <span class="update-quantity-link link-primary">
+              <span class=" js-update-quantity-link update-quantity-link link-primary"
+              data-product-id-link="${matchItem.id}">
                 Update
               </span>
+              <input class= "quantity-input quantity-input-${matchItem.id}" type= "Number" min="0" value="1" max="50">
+              <span class="js-save-quantity-link save-quantity-link link-primary"
+                 data-product-id="${matchItem.id}">Save</span>
               <span class="js-delete-quantity-link delete-quantity-link link-primary"
               data-product-id="${matchItem.id}">
                 Delete
@@ -106,9 +110,12 @@ export function renderOrderSummery (){
   }
   
 
+  function updateHeaderCartItem(){
+    document.querySelector('.js-return-to-home-link').innerHTML = `${totalCartQuantity()} items`
+  }
 
   document.querySelector('.js-order-summary').innerHTML = orderSummeryHTML;
-    document.querySelectorAll('.delete-quantity-link')
+    document.querySelectorAll('.js-delete-quantity-link')
     .forEach((link)=>{
       link.addEventListener('click',()=>{
         const productId = link.dataset.productId
@@ -118,10 +125,33 @@ export function renderOrderSummery (){
         
         container.remove()
         renderPaymentSummery()
-        document.querySelector('.js-return-to-home-link').innerHTML = `${totalCartQuantity()} items`
+        updateHeaderCartItem()
       })
-      document.querySelector('.js-return-to-home-link').innerHTML = `${totalCartQuantity()} items`
+      updateHeaderCartItem()
     });
+
+   
+     document.querySelectorAll('.js-update-quantity-link')
+    .forEach((link)=>{
+      link.addEventListener('click',()=>{
+        const productId = link.dataset.productIdLink
+        
+        const container = document.querySelector(`.js-cart-item-container-${productId}`)
+        container.classList.add('is-editing-quantity')
+        document.querySelector('.js-save-quantity-link')
+          .addEventListener('click',()=>{
+           container.classList.remove('is-editing-quantity') 
+           const quantityInput  = document.querySelector(`.quantity-input-${productId}`)
+           const newCartQuantity = Number(quantityInput.value)
+           updateCartQuantity(productId,newCartQuantity,quantityInput)
+            renderOrderSummery()
+            renderPaymentSummery()
+            updateHeaderCartItem()
+          })
+      })
+      
+    });
+
 
     document.querySelectorAll('.js-delivery-option')
       .forEach((element)=>{
