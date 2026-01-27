@@ -5,7 +5,10 @@ export  function saveToStorage(){
     localStorage.setItem('cart',JSON.stringify(cart))
   }
   
-export let cart = JSON.parse(localStorage.getItem('cart'));
+export let cart;
+loadFromStorage()
+export function loadFromStorage(){
+  cart = JSON.parse(localStorage.getItem('cart'));
   if (!cart){
     cart =
     [{
@@ -19,13 +22,11 @@ export let cart = JSON.parse(localStorage.getItem('cart'));
     deliveryOptionId:'2'
     }];
   }
-export function addTocart(productId){
+}
+export function addTocart(productId,selectedQuantity){
     let matchItem;
    
-    let selectedQuantity ;
-
-    selectedQuantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value)
-    
+   
     cart.forEach((cartItem)=>{
       if (productId === cartItem.productId){
         matchItem = cartItem
@@ -41,20 +42,21 @@ export function addTocart(productId){
       deliveryOptionId:'1'
     })
     }
-        
     
-    document.querySelector('.js-cart-quantity').innerHTML = totalCartQuantity() ;
-    
-    
-    
-    const added = document.querySelector(`.js-added-to-cart-${productId}`);
-    setTimeout(() => {
-      added.classList.add('js-added-message')
-      setTimeout(()=>{
-        added.classList.remove('js-added-message')
-      },2000)
-    },50);
     saveToStorage() 
+}
+
+
+export function displayMessage(productId){
+    
+  const added = document.querySelector(`.js-added-to-cart-${productId}`);
+  setTimeout(() => {
+    added.classList.add('js-added-message')
+    setTimeout(()=>{
+      added.classList.remove('js-added-message')
+    },2000)
+  },50);
+   
 }
 
  export function removeFromCart(productId){

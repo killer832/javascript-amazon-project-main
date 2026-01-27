@@ -1,7 +1,7 @@
 import {products,hello} from  '../data/products.js'
-import {cart,addTocart} from  '../scripts/cart.js'   
- 
+import {cart,addTocart,displayMessage} from  '../scripts/cart.js'   
 import{formatCurrency} from './utils/money.js' 
+import{totalCartQuantity} from './utils/cartQuantity.js' 
 
 let productHtml = ''
 products.forEach(product=>{
@@ -57,13 +57,17 @@ products.forEach(product=>{
   `
   return product
 })
+let selectedQuantity ;
 document.querySelector('.Js-products-grid').innerHTML = productHtml
 
 document.querySelectorAll('.js-addTocart-button').forEach((button)=>{
   button.addEventListener("click",()=>{
-      const productId = button.dataset.productId
-      addTocart(productId)
+
+    const productId = button.dataset.productId
+      selectedQuantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+      displayMessage(productId)
+      addTocart(productId,selectedQuantity)
+      document.querySelector('.js-cart-quantity').innerHTML = totalCartQuantity();
       
     })
   })
-
