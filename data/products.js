@@ -66,6 +66,31 @@ export function getProduct (productId){
 
 export let products = [];
 
+
+export function loadProductsFetch(){
+  const product = fetch('https://supersimplebackend.dev/products').then((response)=>{
+
+    return response.json();
+
+  }).then((productData)=> {
+
+    products = productData.map((productDetails)=>{
+    if (productDetails.type === 'clothing'){
+      return new Clothing(productDetails);
+    }
+
+    else if (productDetails.type === 'appliances'){
+      return new Appliances(productDetails)
+    }
+
+     return new Product(productDetails);
+    });
+  })
+  return product
+}
+
+
+
 export function loadProducts(fun){
   const xhr = new XMLHttpRequest()
 
