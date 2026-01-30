@@ -1,4 +1,4 @@
-import {products,hello} from  '../data/products.js'
+//import {products} from  '../data/products.js'
 import {totalCartQuantity } from "./utils/cartQuantity.js"
 
 export  function saveToStorage(){

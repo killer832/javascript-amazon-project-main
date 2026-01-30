@@ -11,9 +11,6 @@ export function getProduct (productId){
     }))
     return matchItem
 }
-export function hello(){
-    console.log("conncted")
- }
 
  class Product {
   id;
