@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="styles/shared/general.css">
     <link rel="stylesheet" href="styles/shared/amazon-header.css">
     <link rel="stylesheet" href="styles/pages/tracking.css">
+    <script type="module" src="./scripts/trackorder/trackorder.js" defer></script>
   </head>
   <body>
     <div class="amazon-header">
@@ -30,9 +31,9 @@
       </div>
 
       <div class="amazon-header-middle-section">
-        <input class="search-bar" type="text" placeholder="Search">
+        <input class="search-bar js-search-bar" type="text" placeholder="Search" >
 
-        <button class="search-button">
+        <button class="js-search-button search-button"  type="button">
           <img class="search-icon" src="images/icons/search-icon.png">
         </button>
       </div>
@@ -51,42 +52,7 @@
       </div>
     </div>
 
-    <div class="main">
-      <div class="order-tracking">
-        <a class="back-to-orders-link link-primary" href="orders.html">
-          View all orders
-        </a>
-
-        <div class="delivery-date">
-          Arriving on Monday, June 13
-        </div>
-
-        <div class="product-info">
-          Black and Gray Athletic Cotton Socks - 6 Pairs
-        </div>
-
-        <div class="product-info">
-          Quantity: 1
-        </div>
-
-        <img class="product-image" src="images/products/athletic-cotton-socks-6-pairs.jpg">
-
-        <div class="progress-labels-container">
-          <div class="progress-label">
-            Preparing
-          </div>
-          <div class="progress-label current-status">
-            Shipped
-          </div>
-          <div class="progress-label">
-            Delivered
-          </div>
-        </div>
-
-        <div class="progress-bar-container">
-          <div class="progress-bar"></div>
-        </div>
-      </div>
+    <div class="main js-main">
     </div>
   </body>
 </html>

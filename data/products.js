@@ -1,10 +1,10 @@
 import { formatCurrency } from "../scripts/utils/money.js";
 //import { renderProducts } from "../scripts/amazon.js";
 
-export function getProduct (productId){
+export  function getProduct (productId){
    let matchItem;
   
-    products.forEach(((product)=>{
+     products.forEach(((product)=>{
       if (product.id === productId){
         matchItem = product;
       }
@@ -67,31 +67,37 @@ export function getProduct (productId){
 export let products = [];
 
 
-export function loadProductsFetch(){
-  const product = fetch('https://supersimplebackend.dev/products').then((response)=>{
+export async function loadProductsFetch(){
+  try{
+     const response = await fetch('https://supersimplebackend.dev/products')
+     if (!response.ok){
+       throw new Error(`HTTP error ${response.status}`)
+      }
 
-    return response.json();
+      const productData =await response.json()
 
-  }).then((productData)=> {
+      products = productData.map((productDetails)=>{
+      if (productDetails.type === 'clothing'){
+        return new Clothing(productDetails);
+      }
 
-    products = productData.map((productDetails)=>{
-    if (productDetails.type === 'clothing'){
-      return new Clothing(productDetails);
+      else if (productDetails.type === 'appliances'){
+        return new Appliances(productDetails)
+      }
+
+      return new Product(productDetails);
+      });
+  
+    return products
+    } catch(error){
+      console.log('Something went wrong',error.message)
+      
     }
-
-    else if (productDetails.type === 'appliances'){
-      return new Appliances(productDetails)
-    }
-
-     return new Product(productDetails);
-    });
-  })
-  return product
-}
+  }
 
 
 
-export function loadProducts(fun){
+/* export function loadProducts(fun){
   const xhr = new XMLHttpRequest()
 
   xhr.addEventListener('load',()=>{
@@ -112,7 +118,7 @@ export function loadProducts(fun){
 
   xhr.open('GET','https://supersimplebackend.dev/products')
   xhr.send()
- }
+ } */
 
 
 /*

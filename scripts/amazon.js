@@ -1,10 +1,10 @@
-import {products,loadProducts} from  '../data/products.js'
+import {products,loadProductsFetch} from  '../data/products.js'
 import {cart,addTocart,displayMessage} from  '../scripts/cart.js'   
 import{formatCurrency} from './utils/money.js' 
 import{totalCartQuantity} from './utils/cartQuantity.js' 
 
-loadProducts(renderProducts)
-function renderProducts(){
+async function renderProducts(){
+  await loadProductsFetch()
 
 
   let productHtml = ''
@@ -78,3 +78,4 @@ function renderProducts(){
       })
     })
 }
+renderProducts();
