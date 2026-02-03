@@ -2,13 +2,47 @@ import {products,loadProductsFetch} from  '../data/products.js'
 import {cart,addTocart,displayMessage} from  '../scripts/cart.js'   
 import{formatCurrency} from './utils/money.js' 
 import{totalCartQuantity} from './utils/cartQuantity.js' 
+import{renderHeaderAll} from './Header.js'
 
 async function renderProducts(){
   await loadProductsFetch()
+  let matchItem ;
+  async function initSearch() {
+  
+    const url = new URL(window.location.href);
+    const search = url.searchParams.get('query');
+
+    if (!search) {
+      console.log('No search query');
+      return;
+    }
+
+    const searchItem = search.toLowerCase();
+
+    const results = products.filter(product => {
+      const nameMatch = product.name.toLowerCase().includes(searchItem);
+
+      const keywordMatch = product.keywords?.some(keyword =>
+        keyword.toLowerCase().includes(searchItem)
+      );
+
+      return nameMatch || keywordMatch;
+    });
+
+    matchItem = results
+  }
+
+  await initSearch()
+
+   let filteredProducts = products;
+   
+   if (matchItem){
+    filteredProducts = matchItem
+   }
 
 
   let productHtml = ''
-  products.forEach(product=>{
+  filteredProducts.forEach(product=>{
     productHtml += `    
     <div class="product-container">
             <div class="product-image-container">
@@ -66,6 +100,7 @@ async function renderProducts(){
   let selectedQuantity ;
   document.querySelector('.Js-products-grid').innerHTML = productHtml
 
+  renderHeaderAll()
   document.querySelectorAll('.js-addTocart-button').forEach((button)=>{
     button.addEventListener("click",()=>{
 
@@ -73,7 +108,8 @@ async function renderProducts(){
         selectedQuantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
         displayMessage(productId)
         addTocart(productId,selectedQuantity)
-        document.querySelector('.js-cart-quantity').innerHTML = totalCartQuantity();
+        // document.querySelector('.js-cart-quantity').innerHTML = totalCartQuantity();
+        renderHeaderAll()
         
       })
     })

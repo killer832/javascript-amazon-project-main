@@ -18,6 +18,7 @@ export  function getProduct (productId){
   name;
   rating;
   priceCents;
+  keywords;
 
   constructor (productDetails){
     this.id = productDetails.id;
@@ -25,6 +26,7 @@ export  function getProduct (productId){
     this.name = productDetails.name;
     this.rating = productDetails.rating;
     this.priceCents = productDetails.priceCents;
+    this.keywords = productDetails.keywords;
   }
 
   getStarsUrl(){
@@ -67,6 +69,7 @@ export  function getProduct (productId){
 export let products = [];
 
 
+
 export async function loadProductsFetch(){
   try{
      const response = await fetch('https://supersimplebackend.dev/products')
@@ -84,7 +87,7 @@ export async function loadProductsFetch(){
       else if (productDetails.type === 'appliances'){
         return new Appliances(productDetails)
       }
-
+     
       return new Product(productDetails);
       });
   
@@ -94,6 +97,10 @@ export async function loadProductsFetch(){
       
     }
   }
+
+
+
+
 
 
 

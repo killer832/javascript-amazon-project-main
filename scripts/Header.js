@@ -14,9 +14,9 @@ export function render(){
     </div>
 
     <div class="amazon-header-middle-section">
-      <input class="search-bar" type="text" placeholder="Search">
+      <input class="search-bar js-search-bar" type="text" placeholder="Search">
 
-      <button class="search-button">
+      <button class="search-button js-search-button">
         <img class="search-icon" src="images/icons/search-icon.png">
       </button>
     </div>
@@ -34,9 +34,25 @@ export function render(){
       </a>
     </div>
 
-  `
+    `
+   
+
   return header
 }
 export function renderHeaderAll(){
-  return document.querySelector('.js-amazon-header').innerHTML = render(totalCartQuantity);
+  document.querySelector('.js-amazon-header').innerHTML = render();
+    // "hello world"
+
+   const searchValue = document.querySelector('.js-search-bar')
+   const searchButton = document.querySelector('.js-search-button')
+         searchButton.addEventListener('click',()=>{
+      window.location.href=`amazon.html?query=${searchValue.value}`
+    })
+    searchValue.addEventListener('keydown',(e)=>{
+
+      if (e.key === 'Enter'){
+        window.location.href=`amazon.html?query=${searchValue.value}`
+        e.preventDefault()
+      }
+    })
 }
