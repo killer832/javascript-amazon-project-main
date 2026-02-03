@@ -4,6 +4,8 @@ import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js'
 import { formatCurrency } from './utils/money.js';
 // import {render} from './Header.js'
 import { totalCartQuantity } from './utils/cartQuantity.js';
+import { addTocart } from './cart.js';
+// import {renderHeaderAll} from './Header.js'
 
 export async function renderOrder() {
  
@@ -43,7 +45,8 @@ export async function renderOrder() {
           <div class="product-quantity">
             Quantity: ${quantity}
           </div>
-          <button class="buy-again-button button-primary">
+          <button class="js-buy-again-button buy-again-button button-primary"
+          data-product-id = ${productId}>
             <img class="buy-again-icon" src="images/icons/buy-again.png">
             <span class="buy-again-message">Buy it again</span>
           </button>
@@ -86,7 +89,12 @@ export async function renderOrder() {
     </div>
   `
   document.querySelector('.js-orders-grid').innerHTML = orderHTML;
-
+  document.querySelectorAll('.js-buy-again-button').forEach((button)=>{
+    button.addEventListener('click',()=>{
+      const orderId = button.dataset.orderId
+     
+  })
+  })
   }); 
 
 

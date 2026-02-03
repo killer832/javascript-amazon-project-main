@@ -1,5 +1,5 @@
 import { getProduct } from "../../data/products.js"
-import { cart } from "../cart.js"
+import { cart ,resetCart} from "../cart.js"
 import { deliveryOptions, getDeliveryOption } from "../../data/deliveryOptions.js"
 import { formatCurrency } from "../utils/money.js";
 import { totalCartQuantity } from "../utils/cartQuantity.js";
@@ -86,10 +86,12 @@ export function renderPaymentSummery(){
       addOrder(order)
 
       window.location.href ='orders.html'
+      resetCart()
     })
- }catch(error){
-  console.log('Unexpected error. Please try again')
- }
- 
-    
+  }catch(error){
+    console.log('Unexpected error. Please try again')
+  }
+  
+  
 }
+

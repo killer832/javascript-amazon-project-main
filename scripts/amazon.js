@@ -3,6 +3,7 @@ import {cart,addTocart,displayMessage} from  '../scripts/cart.js'
 import{formatCurrency} from './utils/money.js' 
 import{totalCartQuantity} from './utils/cartQuantity.js' 
 import{renderHeaderAll} from './Header.js'
+import{renderOrder} from './orders.js'
 
 async function renderProducts(){
   await loadProductsFetch()
@@ -99,7 +100,7 @@ async function renderProducts(){
   })
   let selectedQuantity ;
   document.querySelector('.Js-products-grid').innerHTML = productHtml
-
+  renderOrder()
   renderHeaderAll()
   document.querySelectorAll('.js-addTocart-button').forEach((button)=>{
     button.addEventListener("click",()=>{
@@ -110,7 +111,7 @@ async function renderProducts(){
         addTocart(productId,selectedQuantity)
         // document.querySelector('.js-cart-quantity').innerHTML = totalCartQuantity();
         renderHeaderAll()
-        
+        renderOrder()
       })
     })
 }
