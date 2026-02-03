@@ -18,9 +18,9 @@ async function renderTracking() {
         const itemId = e.productId
         if (productId === itemId) {
           const product = getProduct(productId)
-          const orderTime = e.orderTime
+          const orderTime = order.orderTime;
           const arrivingTime = e.estimatedDeliveryTime;
-          const a = remaningTime(orderTime,arrivingTime)
+          const width =  remainingTime(orderTime,arrivingTime);
           const formatted = dayjs(arrivingTime).format('dddd, MMMM D')
           const quantity = e.quantity;
           const image = product.image
@@ -50,7 +50,7 @@ async function renderTracking() {
             <div class="progress-label">
               Preparing
             </div>
-            <div class="progress-label current-status">
+            <div class="progress-label js-progress-label">
               Shipped
             </div>
             <div class="progress-label">
@@ -64,32 +64,45 @@ async function renderTracking() {
         </div>
       `
       document.querySelector('.js-main').innerHTML = trackHTML;
-      document.querySelector('.js-progress-bar').style.width = `${a}`
-      }
-      
+      document.querySelector('.js-progress-bar').style.width = `${width}%`;
+      const labels = document.querySelectorAll('.progress-label')
+      labels.forEach((label) =>{
+        label.classList.remove('current-status')
       })
+      if (width<50){
+        labels[0].classList.add('current-status')
+      }
+      else if (width < 100){
+        labels[1].classList.add('current-status')
+      }
+      else{
+        labels[2].classList.add('current-status')
+      }
     }
+    
   })
+}
+})
+
 
 }
 
 renderTracking()
 searchItem()
-function remainingTime(orderTime, arrivingTime) {
-  const today = dayjs()                
-  const orderDate = dayjs(orderTime)   
-  const deliveryDate = dayjs(arrivingTime) 
+function  remainingTime(orderTime, arrivingTime) {
+  const today = dayjs()
+  const orderDate = dayjs(orderTime)
+  const deliveryDate = dayjs(arrivingTime)
+  if (!orderDate.isValid() || !deliveryDate.isValid()) {
+    console.error('Invalid date:', orderTime, arrivingTime)
+    return 0
+  }
 
-  const totalMs = deliveryDate.diff(orderDate) 
-  const passedMs = today.diff(orderDate)       
+  const totalMs = deliveryDate.diff(orderDate)
+  const passedMs = today.diff(orderDate)
 
   if (totalMs <= 0) return 0
 
   const percentage = (passedMs / totalMs) * 100
-
-  // Clamp between 0 and 100 and convert to Number
-  return Number(Math.min(Math.max(percentage, 0), 100).toFixed(2))
+  return Math.min(Math.max(Number(percentage.toFixed(2)), 0), 100)
 }
-const percent = remainingTime("2026-01-02T18:50:34", "2026-02-07T18:05:28")
-console.log(percent) // 0.00 (at order time), will increase over time
-console.log(typeof percent) // "number"
