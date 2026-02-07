@@ -46,12 +46,12 @@ export function renderHeaderAll(){
    const searchValue = document.querySelector('.js-search-bar')
    const searchButton = document.querySelector('.js-search-button')
          searchButton.addEventListener('click',()=>{
-      window.location.href=`amazon.html?query=${searchValue.value}`
+      window.location.href=`index.html?query=${searchValue.value}`
     })
     searchValue.addEventListener('keydown',(e)=>{
 
       if (e.key === 'Enter'){
-        window.location.href=`amazon.html?query=${searchValue.value}`
+        window.location.href=`index.html?query=${searchValue.value}`
         e.preventDefault()
       }
     })
